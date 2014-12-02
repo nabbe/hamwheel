@@ -1,0 +1,26 @@
+{
+  "name": "hamwheeel",
+  "version": "1.0.0",
+  "description": "you are a hamster.",
+  "main": "app/app.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "keywords": [
+    "hamster",
+    "wheel"
+  ],
+  "author": "@_nabbe",
+  "license": "MIT",
+  "devDependencies": {
+    "bower": "^1.3.12",
+    "browserify": "^6.3.3",
+    "debowerify": "^1.1.1",
+    "del": "^1.0.0",
+    "gulp": "^3.8.10",
+    "gulp-concat": "^2.4.2",
+    "gulp-jshint": "^1.9.0",
+    "jshint-stylish": "^1.0.0",
+    "vinyl-source-stream": "^1.0.0"
+  }
+}

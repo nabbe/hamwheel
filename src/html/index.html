@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      html, body, #hamcontainer, #achievement {
+        margin : 0px;
+        padding : 0px;
+        border : none;
+        position : relative;
+      }
+      
+      html, body {
+        width : 100%;
+      }
+      
+      #achievement {
+        width : 20%;
+        display : inline-block;
+      }
+      #hamcontainer {
+        width : 80%;
+        display : inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="achievement"></div>
+    <div id="hamcontainer"></div>
+    <script type="text/javascript" src="./lib/react.js"></script>
+    <script type="text/javascript" src="./js/app.js"></script>
+    <script type="text/javascript">
+      var 
+        hamwheel = require('hamwheel'),
+        store = new hamwheel.AngulerStore(0),
+        dispatcher = {
+          handleStartRunning : function (payload) {
+            store.add(payload);
+            store.startInterval(1000/60);
+          },
+          handleRunning : function (payload) {
+            store.add(payload);
+          },
+          handleEndRunning : function (payload) {
+            store.add(payload);
+            store.stopInterval();
+          }
+        }
+      ;
+      
+      React.render(hamwheel.Achievement.create(
+        {
+          store : store,
+          style : {
+            position : 'absolute',
+            top : '50%'
+          }
+        }
+      ), document.getElementById('achievement'));
+      
+      React.render(hamwheel.HamWheel.create({
+        degreeParPx : (90 / window.innerHeight),
+        radius : 500,
+        anguler : store.storage.anguler,
+        store : store,
+        onStartRunning : dispatcher.handleStartRunning,
+        onRunning : dispatcher.handleRunning,
+        onEndRunning : dispatcher.handleEndRunning
+      }), document.getElementById('hamcontainer'));
+    </script>
+  </body>
+</html>

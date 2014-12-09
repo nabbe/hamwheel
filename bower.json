@@ -1,0 +1,24 @@
+{
+  "name": "hamwheeel",
+  "version": "1.0.0",
+  "description": "you are a hamster.",
+  "main": "app/app.js",
+  "keywords": [
+    "hamster",
+    "wheel"
+  ],
+  "authors": [
+    "@_nabbe"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "~0.12.1"
+  }
+}

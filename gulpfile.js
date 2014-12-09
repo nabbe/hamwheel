@@ -7,13 +7,7 @@ var
   reporter    = require('jshint-stylish'),
   concat      = require('gulp-concat'),
   jasmine     = require('gulp-jasmine-phantom'),
-  fs        = require('fs'),
-  path = require('path'),
-  bower       = function (components) {
-    return components.map(function (elem) {
-      return './bower_components/' + elem + '.js'
-    });
-  }
+  mbf         = require('main-bower-files')
 ;
 
 gulp.task('default', function () {
@@ -21,6 +15,8 @@ gulp.task('default', function () {
 });
 
 gulp.task('clean', del.bind(null, ['./build/']));
+gulp.task('clean:js', del.bind(null, ['./build/js']));
+gulp.task('clean:vendor', del.bind(null, ['./build/lib']));
 
 gulp.task('lint', function () {
   return gulp.src('./src/**/*.js')
@@ -28,29 +24,32 @@ gulp.task('lint', function () {
     .pipe(linter.reporter(reporter));
 });
 
-gulp.task('build', ['lint', 'clean'], function () {
+gulp.task('build', ['lint', 'clean:js'], function () {
     gulp.src('./build_vendor/*')
       .pipe(gulp.dest('./build/'));
     
-    var b = browserify('./src/app.js');
-    b.require('./src/app.js', {expose : 'ensemble'});
+    var b = browserify('./src/js/app/app.js');
+    b.require('./src/js/app/app.js', {expose : 'hamwheel'});
     
     b.bundle()
       .pipe(source('app.js'))
-      .pipe(gulp.dest('./build/'));
+      .pipe(gulp.dest('./build/js'));
 });
 
-gulp.task('build:vendor', function () {
-  gulp.src(bower(['react/react']))
-    .pipe(concat('vendor.js'))
-    .pipe(gulp.dest('build_vendor'));
+gulp.task('build:vendor', ['clean:vendor'], function () {
+  gulp.src(mbf())
+    .pipe(gulp.dest('build/lib'));
 });
 
-gulp.task('build:full', ['build:vendor', 'build'], function(){
-  // empty
+gulp.task('build:page', function () {
+  
+  gulp.src('./src/html/**')
+    .pipe(gulp.dest('build'));
 });
 
-gulp.task('test', ['lint'],  function () {
+gulp.task('build:full', ['build:vendor', 'build', 'build:page']);
+
+gulp.task('test', ['build'],  function () {
   gulp.src('./test/unit/**/*.js')
   .pipe(linter())
   .pipe(linter.reporter(reporter))
@@ -72,15 +71,3 @@ gulp.task('test:integ', ['test'], function () {
       './build/vendor.js', 'build/app.js']
     }));
 });
-
-
-
-gulp.task('sample', ['test'], function () {
-  gulp
-    .src('./sample/**/*.js')
-    .pipe(linter())
-    .pipe(linter.reporter(reporter));
-  
-  gulp.src('./sample/**')
-    .pipe(gulp.dest('build'));
-})

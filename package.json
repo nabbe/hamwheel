@@ -19,8 +19,12 @@
     "del": "^1.0.0",
     "gulp": "^3.8.10",
     "gulp-concat": "^2.4.2",
+    "gulp-jasmine-phantom": "^1.0.13",
     "gulp-jshint": "^1.9.0",
     "jshint-stylish": "^1.0.0",
     "vinyl-source-stream": "^1.0.0"
+  },
+  "dependencies": {
+    "eventemitter2": "^0.4.14"
   }
 }

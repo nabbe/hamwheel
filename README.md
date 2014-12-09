@@ -1,4 +1,4 @@
 hamwheel
 ========
 
-you area  hamster.
+you are a hamster.
